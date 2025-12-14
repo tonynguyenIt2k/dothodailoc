@@ -49,47 +49,68 @@
   </script>
 
   <style>
-    body {
-      font-family: 'Montserrat', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f5f1ea;
-      color: #1f2933;
+    body{
+      font-family:'Montserrat',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+      background:#f5f1ea;
+      color:#1f2933;
     }
-    html, body { overflow-x: hidden; }
-
-    /* ✅ Pagination xuống dưới card, không đè nội dung */
-    .sanpham-pagination,
-    .duan-pagination{
-      position: static !important;
-      display:flex !important;
+    html,body{overflow-x:hidden;}
+    
+  
+    /* Header cố định khi cuộn */
+    #site-header{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      z-index: 80;
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+    }
+    /* ✅ Pagination xuống dưới card */
+    .sanpham-pagination,.duan-pagination{
+      position:static!important;
+      display:flex!important;
       justify-content:center;
       gap:8px;
-      margin-top: 14px;
+      margin-top:14px;
     }
     .sanpham-pagination .swiper-pagination-bullet,
     .duan-pagination .swiper-pagination-bullet{
-      width:8px; height:8px;
-      border-radius:999px;
-      opacity:.28;
+      width:8px;height:8px;border-radius:999px;opacity:.28;
     }
     .sanpham-pagination .swiper-pagination-bullet-active,
-    .duan-pagination .swiper-pagination-bullet-active{
-      opacity:1;
+    .duan-pagination .swiper-pagination-bullet-active{opacity:1;background:#b08a42!important;}
+
+    @keyframes hint-bounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      40%      { transform: translateY(-6px) scale(1.02); }
+      70%      { transform: translateY(-2px) scale(1.01); }
     }
-    /* Gold active bullet */
-    .sanpham-pagination .swiper-pagination-bullet-active,
-    .duan-pagination .swiper-pagination-bullet-active{
-      background: #b08a42 !important;
+    .hint-show{
+      opacity: 1 !important;
+      transform: translateY(0) scale(1) !important;
     }
+    .hint-bounce{
+      animation: hint-bounce .9s ease-in-out 0s 2;
+    }
+
+
+    /* ✅ Mobile dock smooth */
+    #mobile-dock{transition:opacity .18s ease, transform .18s ease;}
   </style>
 </head>
 
 <body class="bg-dl-bg text-dl-text">
   <div id="top" class="min-h-screen flex flex-col">
 
-    <!-- HEADER + HERO -->
-    <header class="bg-white/90 backdrop-blur shadow-soft">
+    <!-- ✅ TOP HEADER (STICKY) -->
+    <header id="site-header" class="bg-white/90 backdrop-blur border-b border-slate-200/70 shadow-sm">
       <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between py-3 sm:py-4">
+
+          <!-- Logo -->
           <div class="flex items-center gap-3">
             <a href="#top" class="w-10 h-10 rounded-full bg-dl-dark flex items-center justify-center overflow-hidden">
               <img src="./assets/img/logo.png" alt="LOGO" class="w-full h-full object-contain">
@@ -104,81 +125,87 @@
             </div>
           </div>
 
-          <div class="hidden sm:flex items-center gap-6 text-sm">
+          <!-- Menu desktop -->
+          <nav class="hidden sm:flex items-center gap-6 text-sm">
             <a href="#dich-vu" class="hover:text-dl-gold transition">Dịch vụ</a>
             <a href="#ly-do" class="hover:text-dl-gold transition">Vì sao chọn chúng tôi</a>
             <a href="javascript:void(0)" data-open-contact class="hover:text-dl-gold transition">Liên hệ</a>
 
             <a href="tel:0396297856"
-               class="inline-flex items-center gap-2 rounded-full border border-dl-gold px-4 py-1.5 text-xs font-medium text-dl-dark hover:bg-dl-gold hover:text-white transition">
+              class="inline-flex items-center gap-2 rounded-full border border-dl-gold px-4 py-1.5 text-xs font-medium text-dl-dark hover:bg-dl-gold hover:text-white transition">
               <span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-dl-gold/10">
                 <i class="fa-solid fa-phone text-dl-gold"></i>
               </span>
               0396 297 856
             </a>
-          </div>
-        </div>
-      </div>
+          </nav>
 
-      <!-- HERO -->
-      <div class="border-y border-slate-200/60 bg-gradient-to-b from-white to-dl-bg">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 lg:py-12 grid lg:grid-cols-2 gap-8 lg:gap-10 items-center">
-          <div class="space-y-4 sm:space-y-5">
-            <p class="text-[11px] sm:text-xs tracking-[0.2em] uppercase text-slate-500">CHUYÊN ĐỒ THỜ CAO CẤP</p>
-
-            <h2 class="font-display text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight text-dl-dark">
-              Tư vấn, thiết kế &amp; thi công
-              <span class="text-dl-gold">không gian thờ trang nghiêm</span>
-              trong mọi kiến trúc hiện đại.
-            </h2>
-
-            <p class="text-sm sm:text-base text-slate-600 max-w-xl">
-              Đồ Thờ Đại Lộc đồng hành cùng gia chủ từ ý tưởng đến hoàn thiện
-              – cân bằng giữa đường nét cổ truyền và phong cách nội thất hiện đại,
-              sử dụng chất liệu gỗ tuyển chọn, chạm khắc tinh xảo.
-            </p>
-
-            <div class="flex flex-wrap gap-3 sm:gap-4">
-              <a href="javascript:void(0)" data-open-contact
-                 class="inline-flex items-center gap-2 rounded-full bg-dl-gold text-white px-5 py-2 text-xs sm:text-sm font-semibold shadow-soft hover:translate-y-[1px] hover:shadow-md transition">
-                ĐẶT LỊCH TƯ VẤN MIỄN PHÍ <span>↗</span>
-              </a>
-
-              <div class="flex items-center gap-3 text-xs sm:text-sm text-slate-600">
-                <div class="h-8 w-px bg-slate-300 hidden sm:block"></div>
-                <div>
-                  <p class="font-medium text-dl-dark">Bảo hành lên tới 5 năm</p>
-                  <p class="text-[11px] sm:text-xs text-slate-500">Cam kết chất lượng vật liệu &amp; thi công</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Hình -->
-          <div class="relative">
-            <div class="aspect-[16/10] rounded-3xl overflow-hidden bg-slate-200 shadow-soft border border-slate-200">
-              <img src="./assets/img/banner2-cr-1600x590.jpg"
-                   alt="Không gian phòng thờ gỗ cao cấp"
-                   class="w-full h-full object-cover">
-            </div>
-
-            <div class="hidden sm:flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/90 backdrop-blur border border-slate-200 shadow-soft absolute -bottom-4 left-4">
-              <div class="h-10 w-10 rounded-full bg-dl-gold/10 flex items-center justify-center text-xl">
-                <i class="fa-solid fa-tree text-dl-gold"></i>
-              </div>
-              <div class="text-xs">
-                <p class="font-semibold text-dl-dark">Gỗ tự nhiên tuyển chọn</p>
-                <p class="text-[11px] text-slate-500">Sơn PU cao cấp, độ bền màu &gt; 10 năm*</p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </header>
+    <!-- Spacer: tránh header cố định che nội dung khi scroll -->
+    <div id="header-spacer" class="h-16 sm:h-20"></div>
 
-    <main class="flex-1">
+    <!-- ✅ HERO (KHÔNG STICKY) -->
+    <section class="border-b border-slate-200/60 bg-gradient-to-b from-white to-dl-bg">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 lg:py-12 grid lg:grid-cols-2 gap-8 lg:gap-10 items-center">
 
-     <!-- DỊCH VỤ CHÍNH -->
+        <div class="space-y-4 sm:space-y-5">
+          <p class="text-[11px] sm:text-xs tracking-[0.2em] uppercase text-slate-500">CHUYÊN ĐỒ THỜ CAO CẤP</p>
+
+          <h2 class="font-display text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight text-dl-dark">
+            Tư vấn, thiết kế &amp; thi công
+            <span class="text-dl-gold">không gian thờ trang nghiêm</span>
+            trong mọi kiến trúc hiện đại.
+          </h2>
+
+          <p class="text-sm sm:text-base text-slate-600 max-w-xl">
+            Đồ Thờ Đại Lộc đồng hành cùng gia chủ từ ý tưởng đến hoàn thiện
+            – cân bằng giữa đường nét cổ truyền và phong cách nội thất hiện đại,
+            sử dụng chất liệu gỗ tuyển chọn, chạm khắc tinh xảo.
+          </p>
+
+          <div class="flex flex-wrap gap-3 sm:gap-4">
+            <a href="javascript:void(0)" data-open-contact
+              class="inline-flex items-center gap-2 rounded-full bg-dl-gold text-white px-5 py-2 text-xs sm:text-sm font-semibold shadow-soft hover:translate-y-[1px] hover:shadow-md transition">
+              ĐẶT LỊCH TƯ VẤN MIỄN PHÍ <span>↗</span>
+            </a>
+
+            <div class="flex items-center gap-3 text-xs sm:text-sm text-slate-600">
+              <div class="h-8 w-px bg-slate-300 hidden sm:block"></div>
+              <div>
+                <p class="font-medium text-dl-dark">Bảo hành lên tới 5 năm</p>
+                <p class="text-[11px] sm:text-xs text-slate-500">Cam kết chất lượng vật liệu &amp; thi công</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <div class="aspect-[16/10] rounded-3xl overflow-hidden bg-slate-200 shadow-soft border border-slate-200">
+            <img src="./assets/img/banner2-cr-1600x590.jpg"
+                alt="Không gian phòng thờ gỗ cao cấp"
+                class="w-full h-full object-cover">
+          </div>
+
+          <div class="hidden sm:flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/90 backdrop-blur border border-slate-200 shadow-soft absolute -bottom-4 left-4">
+            <div class="h-10 w-10 rounded-full bg-dl-gold/10 flex items-center justify-center text-xl">
+              <i class="fa-solid fa-tree text-dl-gold"></i>
+            </div>
+            <div class="text-xs">
+              <p class="font-semibold text-dl-dark">Gỗ tự nhiên tuyển chọn</p>
+              <p class="text-[11px] text-slate-500">Sơn PU cao cấp, độ bền màu &gt; 10 năm*</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+
+    <main class="flex-1 pb-24 sm:pb-0">
+      <!-- DỊCH VỤ CHÍNH -->
       <section id="dich-vu" class="py-8 sm:py-10 lg:py-12">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="text-center mb-6 sm:mb-8">
@@ -256,9 +283,9 @@
               <p class="text-xs sm:text-sm font-medium text-dl-dark">Hoành phi – Câu đối</p>
             </div>
 
-            <div class="group bg-white rounded-2xl border border-slate-200/80 px-3 py-4 sm:px-4 sm:py-5 flex flex-col items-center text-center transition hover:-translate-y-1 hover:shadow-soft hover:border-dl-gold/60">
+             <div class="group bg-white rounded-2xl border border-slate-200/80 px-3 py-4 sm:px-4 sm:py-5 flex flex-col items-center text-center transition hover:-translate-y-1 hover:shadow-soft hover:border-dl-gold/60">
               <div class="mb-3 h-16 w-16 flex items-center justify-center">
-                <img src="./assets/icons/dinh-dong.png" alt="Đồ thờ gỗ" class="max-h-16 w-auto object-contain">
+                <img src="./assets/icons/dinh-dong.png" alt="Đồ thờ đồng đúc" class="max-h-16 w-auto object-contain">
               </div>
               <p class="text-xs sm:text-sm font-medium text-dl-dark">Đồ thờ đồng đúc</p>
             </div>
@@ -270,7 +297,6 @@
       <section id="ly-do" class="py-7 sm:py-10 lg:py-12 bg-gradient-to-b from-dl-bg to-[#e8dfd3] border-y border-slate-200/70">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-7 sm:gap-9 lg:gap-10 items-start">
-
             <!-- LEFT -->
             <div>
               <h3 class="font-display text-[22px] leading-tight sm:text-2xl lg:text-3xl font-semibold text-dl-dark">
@@ -292,7 +318,6 @@
                     </p>
                   </div>
                 </div>
-
                 <div class="flex gap-3">
                   <div class="mt-0.5 h-8 w-8 rounded-full bg-dl-gold/10 flex items-center justify-center text-xs font-semibold text-dl-gold">2</div>
                   <div>
@@ -302,7 +327,6 @@
                     </p>
                   </div>
                 </div>
-
                 <div class="flex gap-3">
                   <div class="mt-0.5 h-8 w-8 rounded-full bg-dl-gold/10 flex items-center justify-center text-xs font-semibold text-dl-gold">3</div>
                   <div>
@@ -319,12 +343,9 @@
             <div class="space-y-4">
               <div class="swiper testimonial-swiper">
                 <div class="swiper-wrapper items-stretch">
-
-                  <!-- Slide 1 -->
                   <div class="swiper-slide flex">
                     <div class="relative bg-white/95 rounded-2xl sm:rounded-3xl border border-slate-200/80 p-4 sm:p-6 h-full min-h-[200px] sm:min-h-[230px] flex flex-col overflow-hidden">
                       <div class="absolute -top-2 -right-1 text-[92px] sm:text-[110px] leading-none text-slate-200/55 select-none">❝</div>
-
                       <div class="flex items-start justify-between gap-3">
                         <div class="flex items-center gap-3 min-w-0">
                           <div class="h-10 w-10 rounded-full bg-dl-gold/15 border border-dl-gold/20 flex items-center justify-center text-dl-gold font-semibold text-sm shrink-0">N</div>
@@ -333,29 +354,23 @@
                             <p class="text-[12px] sm:text-sm text-slate-500 truncate">Chung cư Hoàng Mai</p>
                           </div>
                         </div>
-
                         <div class="shrink-0 text-right">
                           <div class="inline-flex gap-0.5 text-yellow-400 text-xs sm:text-sm leading-none">★★★★★</div>
                           <div class="mt-0.5 text-[10px] sm:text-xs text-slate-400">5.0</div>
                         </div>
                       </div>
-
                       <p class="mt-3 text-[10px] sm:text-xs uppercase tracking-[0.26em] text-slate-400">ĐÁNH GIÁ TỪ KHÁCH HÀNG</p>
-
                       <p class="mt-2.5 text-[13px] sm:text-base text-slate-700 leading-relaxed line-clamp-4">
                         “Không gian thờ sau khi làm xong rất ấm cúng mà không bị nặng nề,
                         nội thất chung cư vẫn hiện đại nhưng khu vực bàn thờ thì trang nghiêm, chỉn chu.”
                       </p>
-
                       <div class="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white/95 to-transparent"></div>
                     </div>
                   </div>
 
-                  <!-- Slide 2 -->
                   <div class="swiper-slide flex">
                     <div class="relative bg-white/95 rounded-2xl sm:rounded-3xl border border-slate-200/80 p-4 sm:p-6 h-full min-h-[200px] sm:min-h-[230px] flex flex-col overflow-hidden">
                       <div class="absolute -top-2 -right-1 text-[92px] sm:text-[110px] leading-none text-slate-200/55 select-none">❝</div>
-
                       <div class="flex items-start justify-between gap-3">
                         <div class="flex items-center gap-3 min-w-0">
                           <div class="h-10 w-10 rounded-full bg-dl-gold/15 border border-dl-gold/20 flex items-center justify-center text-dl-gold font-semibold text-sm shrink-0">H</div>
@@ -364,29 +379,23 @@
                             <p class="text-[12px] sm:text-sm text-slate-500 truncate">Biệt thự Hà Đông</p>
                           </div>
                         </div>
-
                         <div class="shrink-0 text-right">
                           <div class="inline-flex gap-0.5 text-yellow-400 text-xs sm:text-sm leading-none">★★★★★</div>
                           <div class="mt-0.5 text-[10px] sm:text-xs text-slate-400">5.0</div>
                         </div>
                       </div>
-
                       <p class="mt-3 text-[10px] sm:text-xs uppercase tracking-[0.26em] text-slate-400">ĐÁNH GIÁ TỪ KHÁCH HÀNG</p>
-
                       <p class="mt-2.5 text-[13px] sm:text-base text-slate-700 leading-relaxed line-clamp-4">
                         “Hoành phi – câu đối và bàn thờ gỗ mít làm rất đẹp,
                         đường nét tinh xảo, tổng thể rất hài hòa.”
                       </p>
-
                       <div class="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white/95 to-transparent"></div>
                     </div>
                   </div>
 
-                  <!-- Slide 3 -->
                   <div class="swiper-slide flex">
                     <div class="relative bg-white/95 rounded-2xl sm:rounded-3xl border border-slate-200/80 p-4 sm:p-6 h-full min-h-[200px] sm:min-h-[230px] flex flex-col overflow-hidden">
                       <div class="absolute -top-2 -right-1 text-[92px] sm:text-[110px] leading-none text-slate-200/55 select-none">❝</div>
-
                       <div class="flex items-start justify-between gap-3">
                         <div class="flex items-center gap-3 min-w-0">
                           <div class="h-10 w-10 rounded-full bg-dl-gold/15 border border-dl-gold/20 flex items-center justify-center text-dl-gold font-semibold text-sm shrink-0">B</div>
@@ -395,24 +404,19 @@
                             <p class="text-[12px] sm:text-sm text-slate-500 truncate">Cầu Giấy – Hà Nội</p>
                           </div>
                         </div>
-
                         <div class="shrink-0 text-right">
                           <div class="inline-flex gap-0.5 text-yellow-400 text-xs sm:text-sm leading-none">★★★★★</div>
                           <div class="mt-0.5 text-[10px] sm:text-xs text-slate-400">5.0</div>
                         </div>
                       </div>
-
                       <p class="mt-3 text-[10px] sm:text-xs uppercase tracking-[0.26em] text-slate-400">ĐÁNH GIÁ TỪ KHÁCH HÀNG</p>
-
                       <p class="mt-2.5 text-[13px] sm:text-base text-slate-700 leading-relaxed line-clamp-4">
                         “Từ bản vẽ 3D đến thi công thực tế đều đúng như tư vấn,
                         bàn thờ treo tường gọn gàng, hợp phong thủy.”
                       </p>
-
                       <div class="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-white/95 to-transparent"></div>
                     </div>
                   </div>
-
                 </div>
                 <div class="swiper-pagination !static mt-3"></div>
               </div>
@@ -428,7 +432,6 @@
                     <p class="text-sm font-semibold text-dl-dark leading-tight">300+ công trình</p>
                   </div>
                 </div>
-
                 <div class="group flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/95 backdrop-blur border border-slate-200/60 shadow-soft/50 hover:shadow-soft hover:border-dl-gold/50 hover:-translate-y-0.5 transition">
                   <div class="h-10 w-10 rounded-full bg-dl-gold/10 flex items-center justify-center text-lg text-dl-gold group-hover:scale-110 transition">
                     <i class="fa-solid fa-map-pin"></i>
@@ -458,7 +461,6 @@
           <div class="relative">
             <div class="swiper sanpham-swiper">
               <div class="swiper-wrapper">
-
                 <div class="swiper-slide">
                   <div class="group bg-white rounded-2xl border border-slate-200/80 overflow-hidden transition hover:-translate-y-0.5">
                     <div class="aspect-[4/3] overflow-hidden">
@@ -510,13 +512,10 @@
                     </div>
                   </div>
                 </div>
-
               </div>
 
               <div class="swiper-button-prev !text-dl-dark"></div>
               <div class="swiper-button-next !text-dl-dark"></div>
-
-              <!-- ✅ Pagination riêng cho Sản phẩm -->
               <div class="swiper-pagination sanpham-pagination"></div>
             </div>
 
@@ -543,7 +542,6 @@
           <div class="relative">
             <div class="swiper duan-swiper">
               <div class="swiper-wrapper">
-
                 <div class="swiper-slide">
                   <div class="bg-white rounded-2xl border border-slate-200/80 overflow-hidden">
                     <div class="aspect-[4/3] overflow-hidden">
@@ -582,13 +580,10 @@
                     </div>
                   </div>
                 </div>
-
               </div>
 
               <div class="swiper-button-prev !text-dl-dark"></div>
               <div class="swiper-button-next !text-dl-dark"></div>
-
-              <!-- ✅ Pagination riêng cho Công trình -->
               <div class="swiper-pagination duan-pagination"></div>
             </div>
 
@@ -604,7 +599,7 @@
 
       <!-- POPUP LIÊN HỆ -->
       <div id="contact-modal"
-           class="fixed inset-0 z-50 hidden bg-black/50 backdrop-blur-sm flex items-center justify-center px-3 sm:px-4">
+           class="fixed inset-0 z-[90] hidden bg-black/50 backdrop-blur-sm flex items-center justify-center px-3 sm:px-4">
         <div class="relative max-w-3xl w-full bg-dl-dark text-dl-bg rounded-2xl sm:rounded-3xl shadow-soft overflow-hidden max-h-[90vh] overflow-y-auto">
           <button id="contact-close"
             class="absolute right-2 sm:right-3 top-2 sm:top-3 w-8 h-8 rounded-full bg-black/30 flex items-center justify-center text-slate-100 hover:bg-black/50 z-10">
@@ -690,7 +685,7 @@
 
       <!-- LIGHTBOX -->
       <div id="lightbox-overlay"
-           class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+           class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[95] hidden">
         <div class="relative max-w-4xl max-h-[90vh] mx-4">
           <button id="lightbox-close"
                   class="absolute -top-4 -right-4 bg-white/90 text-slate-800 rounded-full w-8 h-8 flex items-center justify-center shadow-lg text-sm">
@@ -701,140 +696,185 @@
         </div>
       </div>
 
-      <!-- FOOTER (tone be-gold, modern) -->
+      <!-- FOOTER -->
       <footer class="border-t border-slate-200/70 bg-[#241a12] text-slate-300">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
-
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-
-            <!-- Brand -->
             <div class="space-y-3">
               <a href="#top" class="inline-flex items-center gap-3 group">
-                <img
-                  src="./assets/img/logo.png"
-                  alt="Đồ Thờ Đại Lộc"
-                  class="h-11 w-11 rounded-xl object-contain bg-white/90 p-1 border border-white/10 group-hover:scale-105 transition"
-                >
+                <img src="./assets/img/logo.png" alt="Đồ Thờ Đại Lộc"
+                     class="h-11 w-11 rounded-xl object-contain bg-white/90 p-1 border border-white/10 group-hover:scale-105 transition">
                 <span class="min-w-0">
                   <span class="block font-display text-lg font-semibold text-white leading-tight group-hover:text-dl-gold transition">
                     Đồ Thờ Đại Lộc
                   </span>
-                  <span class="block text-xs text-slate-400">
-                    Đồ thờ truyền thống cao cấp
-                  </span>
+                  <span class="block text-xs text-slate-400">Đồ thờ truyền thống cao cấp</span>
                 </span>
               </a>
 
               <p class="text-sm text-slate-400 leading-relaxed">
-                Tư vấn – Thiết kế – Sản xuất – Thi công không gian thờ
-                trang nghiêm, tinh tế và bền vững.
+                Tư vấn – Thiết kế – Sản xuất – Thi công không gian thờ trang nghiêm, tinh tế và bền vững.
               </p>
 
               <div class="flex flex-wrap gap-2 pt-1">
                 <a href="tel:0396297856"
                    class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium bg-white/5 border border-white/10 hover:bg-white/10 transition">
-                  <i class="fa-solid fa-phone text-dl-gold"></i>
-                  Gọi ngay
+                  <i class="fa-solid fa-phone text-dl-gold"></i> Gọi ngay
                 </a>
                 <a href="https://zalo.me/0396297856" target="_blank"
                    class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium bg-dl-gold/15 border border-dl-gold/20 text-dl-gold hover:bg-dl-gold hover:text-white transition">
-                  <i class="fa-solid fa-comment-dots"></i>
-                  Zalo
+                  <i class="fa-solid fa-comment-dots"></i> Zalo
                 </a>
               </div>
             </div>
 
-            <!-- Services -->
             <div class="space-y-3">
               <p class="text-xs font-semibold text-white uppercase tracking-wider">Dịch vụ</p>
               <ul class="space-y-2 text-sm">
-                <li>
-                  <a href="#dich-vu" class="flex items-center gap-2 text-slate-400 hover:text-dl-gold transition">
-                    <i class="fa-solid fa-angle-right text-xs"></i> Bàn thờ
-                  </a>
-                </li>
-                <li>
-                  <a href="#dich-vu" class="flex items-center gap-2 text-slate-400 hover:text-dl-gold transition">
-                    <i class="fa-solid fa-angle-right text-xs"></i> Tủ thờ
-                  </a>
-                </li>
-                <li>
-                  <a href="#dich-vu" class="flex items-center gap-2 text-slate-400 hover:text-dl-gold transition">
-                    <i class="fa-solid fa-angle-right text-xs"></i> Hoành phi – câu đối
-                  </a>
-                </li>
-                <li>
-                  <a href="#du-an" class="flex items-center gap-2 text-slate-400 hover:text-dl-gold transition">
-                    <i class="fa-solid fa-angle-right text-xs"></i> Công trình đã thực hiện
-                  </a>
-                </li>
+                <li><a href="#dich-vu" class="flex items-center gap-2 text-slate-400 hover:text-dl-gold transition"><i class="fa-solid fa-angle-right text-xs"></i> Bàn thờ</a></li>
+                <li><a href="#dich-vu" class="flex items-center gap-2 text-slate-400 hover:text-dl-gold transition"><i class="fa-solid fa-angle-right text-xs"></i> Tủ thờ</a></li>
+                <li><a href="#dich-vu" class="flex items-center gap-2 text-slate-400 hover:text-dl-gold transition"><i class="fa-solid fa-angle-right text-xs"></i> Hoành phi – câu đối</a></li>
+                <li><a href="#du-an" class="flex items-center gap-2 text-slate-400 hover:text-dl-gold transition"><i class="fa-solid fa-angle-right text-xs"></i> Công trình đã thực hiện</a></li>
               </ul>
             </div>
 
-            <!-- Contact -->
             <div class="space-y-3">
               <p class="text-xs font-semibold text-white uppercase tracking-wider">Liên hệ</p>
-
               <div class="space-y-2 text-sm">
                 <a href="tel:0396297856" class="flex items-center gap-2 text-white hover:text-dl-gold transition">
-                  <i class="fa-solid fa-phone text-dl-gold"></i>
-                  0396 297 856
+                  <i class="fa-solid fa-phone text-dl-gold"></i> 0396 297 856
                 </a>
-
-                <a href="https://zalo.me/0396297856" target="_blank"
-                   class="flex items-center gap-2 text-slate-400 hover:text-dl-gold transition">
-                  <i class="fa-solid fa-comments text-dl-gold"></i>
-                  Chat Zalo nhận báo giá
+                <a href="https://zalo.me/0396297856" target="_blank" class="flex items-center gap-2 text-slate-400 hover:text-dl-gold transition">
+                  <i class="fa-solid fa-comments text-dl-gold"></i> Chat Zalo nhận báo giá
                 </a>
-
                 <div class="flex items-start gap-2 text-slate-400">
                   <i class="fa-solid fa-location-dot text-dl-gold mt-0.5"></i>
                   <p>Sơn Đồng – Hà Nội</p>
                 </div>
-
                 <button data-open-contact
                         class="mt-1 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium bg-white/5 border border-white/10 hover:bg-white/10 transition w-fit">
-                  <i class="fa-solid fa-arrow-up-right-from-square text-dl-gold"></i>
-                  Nhận tư vấn &amp; catalog
+                  <i class="fa-solid fa-arrow-up-right-from-square text-dl-gold"></i> Nhận tư vấn &amp; catalog
                 </button>
               </div>
             </div>
 
-            <!-- Map -->
             <div class="space-y-3">
               <p class="text-xs font-semibold text-white uppercase tracking-wider">Vị trí</p>
               <div class="rounded-2xl overflow-hidden border border-white/10 bg-white/5 h-40">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3722.8765432098765!2d105.7!3d21.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac00000000!2zU8ahbiBEhu0bm8!5e0!3m2!1svi!2sus"
-                  class="w-full h-full" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+                  class="w-full h-full" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
               </div>
-              <p class="text-xs text-slate-500">
-                Ghé xưởng xem mẫu • Đo đạc &amp; tư vấn tận nơi
-              </p>
+              <p class="text-xs text-slate-500">Ghé xưởng xem mẫu • Đo đạc &amp; tư vấn tận nơi</p>
             </div>
-
           </div>
 
           <div class="mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
             <p class="text-xs text-slate-500">© <span id="year"></span> Đồ Thờ Đại Lộc</p>
             <p class="text-xs text-slate-500">Tư vấn • Thiết kế • Sản xuất • Thi công</p>
           </div>
-
         </div>
       </footer>
 
     </main>
-  </div>
 
+    <!-- ✅ MOBILE DOCK (auto hide on popup/lightbox) -->
+    <nav id="mobile-dock"
+         class="sm:hidden fixed left-0 right-0 bottom-0 z-[60] px-3 transition"
+         style="padding-bottom: calc(10px + env(safe-area-inset-bottom));">
+      <div class="rounded-2xl border border-white/10 bg-[#241a12]/95 backdrop-blur shadow-soft px-2 py-2">
+        <div class="grid grid-cols-4 gap-2">
+          <a href="#dich-vu" class="flex flex-col items-center justify-center gap-1 py-2 rounded-xl text-slate-200 hover:bg-white/5 transition">
+            <i class="fa-solid fa-layer-group text-dl-gold"></i>
+            <span class="text-[10px]">Dịch vụ</span>
+          </a>
+
+          <a href="#san-pham" class="flex flex-col items-center justify-center gap-1 py-2 rounded-xl text-slate-200 hover:bg-white/5 transition">
+            <i class="fa-solid fa-box-open text-dl-gold"></i>
+            <span class="text-[10px]">Sản phẩm</span>
+          </a>
+
+          <a href="tel:0396297856" class="flex flex-col items-center justify-center gap-1 py-2 rounded-xl text-slate-200 hover:bg-white/5 transition">
+            <i class="fa-solid fa-phone text-dl-gold"></i>
+            <span class="text-[10px]">Gọi</span>
+          </a>
+
+          <button data-open-contact class="flex flex-col items-center justify-center gap-1 py-2 rounded-xl text-white bg-dl-gold/20 hover:bg-dl-gold/30 transition">
+            <i class="fa-solid fa-message text-dl-gold"></i>
+            <span class="text-[10px]">Tư vấn</span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+  </div>
+  <!-- FLOATING SUPPORT CTA -->
+  <div id="support-cta" class="fixed bottom-20 right-4 z-[90]">
+      <!-- Hint: Bạn cần trợ giúp? -->
+      <div id="support-hint"
+          class="pointer-events-none absolute right-16 bottom-2 opacity-0 translate-y-1 scale-95
+                  transition duration-300 ease-out">
+        <div class="relative bg-white/95 text-slate-900 px-4 py-2 rounded-full shadow-xl border border-slate-200
+                    text-sm font-semibold">
+          Bạn cần trợ giúp?
+          <!-- mũi nhọn -->
+          <span class="absolute -right-2 top-1/2 -translate-y-1/2 w-3 h-3 bg-white/95 border-r border-b border-slate-200 rotate-45"></span>
+        </div>
+      </div>
+
+    <!-- Nút chính -->
+    <button id="support-toggle"
+            class="w-14 h-14 rounded-full bg-dl-gold text-white
+                  flex items-center justify-center shadow-xl
+                  hover:scale-105 active:scale-95 transition">
+      <i class="fa-solid fa-headset text-xl"></i>
+    </button>
+
+    <!-- Menu bung -->
+    <div id="support-menu"
+        class="absolute bottom-24 right-0 hidden flex-col gap-3 items-end">
+
+      <!-- Messenger -->
+      <a href="https://m.me/PAGE_ID_OR_USERNAME" target="_blank"
+        class="flex items-center gap-3 bg-white text-slate-800
+                px-2 py-2 rounded-full shadow-lg border border-slate-200
+                hover:bg-slate-50 transition">
+        <span class="w-9 h-9 rounded-full bg-[#0084FF] text-white flex items-center justify-center">
+          <i class="fa-brands fa-facebook-messenger"></i>
+        </span>
+      </a>
+
+      <!-- Zalo -->
+      <a href="https://zalo.me/0396297856" target="_blank"
+        class="flex items-center gap-3 bg-white text-slate-800
+                px-2 py-2 mt-2 rounded-full shadow-lg border border-slate-200
+                hover:bg-slate-50 transition">
+        <span class="w-9 h-9 rounded-full bg-[#0068FF] text-white
+                    flex items-center justify-center font-bold text-xs">
+          Zalo
+        </span>
+      </a>
+
+      <!-- Call -->
+      <a href="tel:0396297856"
+        class="flex items-center gap-3 bg-white text-slate-800
+                px-2 py-2 mt-2 rounded-full shadow-lg border border-slate-200
+                hover:bg-slate-50 transition">
+        <span class="w-9 h-9 rounded-full bg-dl-gold text-white flex items-center justify-center">
+          <i class="fa-solid fa-phone"></i>
+        </span>
+      </a>
+
+    </div>
+  </div>
   <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
   <script>
-    // Năm footer
+    // Footer year
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Slider đánh giá
+    // Swipers
     new Swiper('.testimonial-swiper', {
       slidesPerView: 1.1,
       spaceBetween: 12,
@@ -843,13 +883,9 @@
       grabCursor: true,
       speed: 450,
       pagination: { el: '.testimonial-swiper .swiper-pagination', clickable: true },
-      breakpoints: {
-        640: { slidesPerView: 1, spaceBetween: 16 },
-        1024: { slidesPerView: 1, spaceBetween: 18 },
-      },
+      breakpoints: { 640: { slidesPerView: 1, spaceBetween: 16 }, 1024: { slidesPerView: 1, spaceBetween: 18 } },
     });
 
-    // Slider sản phẩm
     new Swiper('.sanpham-swiper', {
       loop: true,
       spaceBetween: 16,
@@ -861,7 +897,6 @@
       breakpoints: { 640:{ slidesPerView:2, centeredSlides:false }, 1024:{ slidesPerView:3 } },
     });
 
-    // Slider công trình
     new Swiper('.duan-swiper', {
       loop: true,
       spaceBetween: 20,
@@ -873,53 +908,95 @@
       breakpoints: { 640:{ slidesPerView:2, centeredSlides:false }, 1024:{ slidesPerView:3 } },
     });
 
-    // LIGHTBOX
+    // ===== LIGHTBOX (hide dock when open) =====
     const overlay = document.getElementById('lightbox-overlay');
     const overlayImg = document.getElementById('lightbox-image');
     const overlayClose = document.getElementById('lightbox-close');
 
-    if (overlay && overlayImg && overlayClose) {
-      document.querySelectorAll('[data-lightbox="true"]').forEach(img => {
-        img.addEventListener('click', () => {
-          overlayImg.src = img.src;
-          overlay.classList.remove('hidden');
-        });
-      });
-
-      overlayClose.addEventListener('click', () => {
-        overlay.classList.add('hidden');
-        overlayImg.src = '';
-      });
-
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) {
-          overlay.classList.add('hidden');
-          overlayImg.src = '';
-        }
-      });
-    }
-
-    // Popup liên hệ
+    // ===== Popup contact =====
     const contactModal    = document.getElementById('contact-modal');
     const contactClose    = document.getElementById('contact-close');
     const contactTriggers = document.querySelectorAll('[data-open-contact]');
 
+    // ===== Mobile Dock =====
+    const mobileDock = document.getElementById('mobile-dock');
+    function hideDock(){
+      if(!mobileDock) return;
+      mobileDock.classList.add('opacity-0','pointer-events-none','translate-y-3');
+    }
+    function showDock(){
+      if(!mobileDock) return;
+      mobileDock.classList.remove('opacity-0','pointer-events-none','translate-y-3');
+    }
+
     function openContactModal() {
       contactModal.classList.remove('hidden');
       document.documentElement.classList.add('overflow-hidden');
+      hideDock();
     }
-
     function closeContactModal() {
       contactModal.classList.add('hidden');
       document.documentElement.classList.remove('overflow-hidden');
+      showDock();
     }
 
     contactTriggers.forEach(btn => btn.addEventListener('click', openContactModal));
     if (contactClose) contactClose.addEventListener('click', closeContactModal);
     if (contactModal) contactModal.addEventListener('click', (e) => { if (e.target === contactModal) closeContactModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeContactModal(); });
 
-    // ✅ SUBMIT FORM -> APPS SCRIPT (giữ nguyên của bạn)
+    // Lightbox open/close
+    if (overlay && overlayImg && overlayClose) {
+      document.querySelectorAll('[data-lightbox="true"]').forEach(img => {
+        img.addEventListener('click', () => {
+          overlayImg.src = img.src;
+          overlay.classList.remove('hidden');
+          document.documentElement.classList.add('overflow-hidden');
+          hideDock();
+        });
+      });
+
+      function closeLightbox(){
+        overlay.classList.add('hidden');
+        overlayImg.src = '';
+        document.documentElement.classList.remove('overflow-hidden');
+        showDock();
+      }
+
+      overlayClose.addEventListener('click', closeLightbox);
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) closeLightbox(); });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        // close both if open
+        if (!contactModal.classList.contains('hidden')) closeContactModal();
+        if (overlay && !overlay.classList.contains('hidden')) {
+          overlay.classList.add('hidden');
+          overlayImg.src = '';
+          document.documentElement.classList.remove('overflow-hidden');
+          showDock();
+        }
+      }
+    });
+
+    // ===== Header refine on scroll (optional but đẹp) =====
+    const headerEl = document.getElementById('site-header');
+    function onScrollHeader(){
+      const y = window.scrollY || 0;
+      if(!headerEl) return;
+      if(y > 12){
+        headerEl.classList.add('shadow-md');
+        headerEl.style.background = 'rgba(255,255,255,0.92)';
+      }else{
+        headerEl.classList.remove('shadow-md');
+        headerEl.style.background = 'rgba(255,255,255,0.90)';
+      }
+    }
+    window.addEventListener('scroll', onScrollHeader, { passive:true });
+    onScrollHeader();
+
+    // ===== SUBMIT FORM -> APPS SCRIPT =====
+    // ✅ nhớ thay đúng URL Web App /exec của bạn
     const FORM_URL = 'https://script.google.com/macros/s/AKfycbx27iOAHKwuWWWc6Hf2D6T94GN6EmeyvQGWmpNOpS2fHosvABc07y2syczaiu7asYki/exec';
 
     const form = document.getElementById('contact-form');
@@ -947,17 +1024,19 @@
           type: 'application/x-www-form-urlencoded;charset=UTF-8'
         });
 
+        // sendBeacon -> không bị CORS, nhưng không biết response
         let ok = navigator.sendBeacon && navigator.sendBeacon(FORM_URL, blob);
 
+        // fallback
         if (!ok) {
-          await fetch(FORM_URL, { method: 'POST', mode: 'no-cors', body: blob });
+          await fetch(FORM_URL, { method: 'POST', mode: 'no-cors', body: blob, redirect: 'follow' });
           ok = true;
         }
 
         statusEl.textContent = '✓ Cảm ơn bạn! Thông tin đã được gửi thành công.';
         statusEl.className = 'text-[11px] text-green-600 font-medium';
         form.reset();
-        setTimeout(() => closeContactModal(), 1500);
+        setTimeout(() => closeContactModal(), 1200);
 
       } catch (err) {
         console.error(err);
@@ -968,6 +1047,74 @@
         submitBtn.textContent = 'GỬI THÔNG TIN';
       }
     });
+
+    // ===== Hint: "Bạn cần trợ giúp?" =====
+    const hintEl = document.getElementById('support-hint');
+
+    function showHint() {
+      if (!hintEl) return;
+      hintEl.classList.add('hint-show', 'hint-bounce');
+      // tự ẩn sau 4.5s
+      setTimeout(() => hideHint(), 4500);
+    }
+    function hideHint() {
+      if (!hintEl) return;
+      hintEl.classList.remove('hint-show', 'hint-bounce');
+    }
+
+    // chỉ hiện 1 lần mỗi người dùng
+    try {
+      const key = 'dl_support_hint_seen';
+      const seen = localStorage.getItem(key);
+      if (!seen) {
+        setTimeout(() => showHint(), 900); // đợi load xong 0.9s
+        localStorage.setItem(key, '1');
+      }
+    } catch (e) {
+      // nếu trình duyệt chặn localStorage thì vẫn show
+      setTimeout(() => showHint(), 900);
+    }
+
+    // Khi bấm nút headset thì ẩn hint luôn
+    document.getElementById('support-toggle')?.addEventListener('click', () => {
+      hideHint();
+    });
+
+    // ===== FLOATING SUPPORT CTA =====
+  const supportToggle = document.getElementById('support-toggle');
+  const supportMenu   = document.getElementById('support-menu');
+  const CTAModal  = document.getElementById('contact-modal');
+
+  // Toggle menu
+  supportToggle.addEventListener('click', () => {
+    supportMenu.classList.toggle('hidden');
+  });
+
+  // Click ra ngoài thì đóng
+  document.addEventListener('click', (e) => {
+    if (!supportToggle.contains(e.target) && !supportMenu.contains(e.target)) {
+      supportMenu.classList.add('hidden');
+    }
+  });
+
+  // Khi mở popup liên hệ → ẩn CTA
+  function hideSupportCTA() {
+    document.getElementById('support-cta')?.classList.add('hidden');
+  }
+  function showSupportCTA() {
+    document.getElementById('support-cta')?.classList.remove('hidden');
+  }
+
+  // Hook vào popup của bạn
+  document.querySelectorAll('[data-open-contact]').forEach(btn => {
+    btn.addEventListener('click', hideSupportCTA);
+  });
+
+  document.getElementById('contact-close')?.addEventListener('click', showSupportCTA);
+  CTAModal?.addEventListener('click', (e) => {
+    if (e.target === CTAModal) showSupportCTA();
+  });
+
   </script>
 </body>
 </html>
